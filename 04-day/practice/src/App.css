@@ -1,0 +1,18 @@
+.bordered {
+  border: 2px solid black;
+}
+.flex {
+  display: flex;
+  gap: 10px;
+  overflow: hidden;
+}
+.w-20{
+  width: 20%;
+}
+.col {
+  flex-direction: column;
+}
+.centered{
+  justify-content: center;
+  align-items: center;
+}
