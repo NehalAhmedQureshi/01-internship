@@ -5,7 +5,7 @@ import "./App.css";
 import Post from "./components/Post";
 import AddPost from "./components/AddPost";
 import { useEffect } from "react";
-import { useDebugValue } from "react";
+// import { useDebugValue } from "react";
 
 function App() {
   // const [like, setLike] = useState(0);
