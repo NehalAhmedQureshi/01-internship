@@ -4,23 +4,51 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import Post from "./components/Post";
 import AddPost from "./components/AddPost";
+import { useEffect } from "react";
+import { useDebugValue } from "react";
 
 function App() {
-  const [like, setLike] = useState(0);
-  const [disLike, setDisLike] = useState(0);
-  const ImgSrcs = {
-    menPost : 'https://img.freepik.com/free-vector/young-man-with-glasses-illustration_1308-174706.jpghttps://img.freepik.com/free-vector/young-man-with-glasses-illustration_1308-174706.jpg?ga=GA1.1.270770077.1727419576&semt=ais_hybrid?ga=GA1.1.270770077.1727419576&semt=ais_hybrid',
-    womenPost : 'https://img.freepik.com/premium-vector/young-gamer-girl-avatar-streaming-with-colored-hair-gaming-headset_704771-3536.jpg?ga=GA1.1.270770077.1727419576&semt=ais_hybrid',
-    visualPost : 'https://img.freepik.com/free-psd/3d-illustration-person-with-punk-hair-jacket_23-2149436198.jpg?ga=GA1.1.270770077.1727419576&semt=ais_hybrid',
-}
+  // const [like, setLike] = useState(0);
+  // const [disLike, setDisLike] = useState(0);
+  const [refresh, setRefresh] = useState(false);
+  let [postName, setPostName] = useState("");
+  let [postImg, setPostImg] = useState("");
+  let [error, setError] = useState("");
+  let [allPost, setAllPost] = useState([]);
+  useEffect(() => {
+    setAllPost(JSON.parse(localStorage.getItem("allPost")));
+  }, [refresh]);
+  useEffect(() => {
+    setAllPost(JSON.parse(localStorage.getItem("allPost")));
+  }, []);
+  console.log("🚀 ~ App ~ allPost:", allPost);
   return (
     <div className="main">
       <h1>Posting Site</h1>
-      <div className="wrap flex">
-        <Post postHead={'Men Post'} imgSrc={ImgSrcs.menPost}/>
-        <Post postHead={'Women Post'} imgSrc={ImgSrcs.womenPost}/>
-        <Post postHead={'Visual Post'} imgSrc={ImgSrcs.visualPost}/>
-        <AddPost />
+      <div
+        className="wrap flex"
+        style={{
+          alignItems: "center",
+        }}
+      >
+        {allPost && allPost.length > 0 ?
+          allPost.map((post, key) => (
+            <Post key={key} postHead={post.postName} imgSrc={post.postImg} allPost={allPost} setAllPost={setAllPost} />
+          ))
+          : (
+            <h2
+              style={{
+                color: "red",
+                textAlign: "center",
+                alignContent: "center",
+              }}
+            >
+              No Posts Available!
+            </h2>
+          )
+        }
+        <button onClick={() => setRefresh(!refresh)}>Refresh</button>
+        <AddPost postImg={postImg} setPostImg={setPostImg} allPost={allPost} setAllPost={setAllPost} setError={setError} error={error} postName={postName} setPostName={setPostName} />
       </div>
     </div>
   );

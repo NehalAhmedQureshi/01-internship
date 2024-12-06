@@ -1,22 +1,39 @@
+import { useEffect } from "react"
 import { useState } from "react"
 
 
-export default function AddPost() {
-
-     let [postName , setPostName] = useState('')
-     let [postImg , setPostImg] = useState('')
-     let [error , setError] = useState('')
-
-     console.log("🚀 ~ AddPost ~ postImg:", postImg)
+export default function AddPost({allPost,setAllPost , postImg , setPostImg , setPostName , postName , error , setError}) {
+     // let backendPost = localStorage.getItem('allPost')
+     // console.log("🚀 ~ AddPost ~ backendPost:", backendPost)
+     // console.log("🚀 ~ AddPost ~ allPost:", allPost)
      function addingPost(){
           if (postName !== '') {
+               setError('')
                if (postImg !== '') {
-                    
+                    setError('')
+                    let post = {
+                         postName,
+                         postImg,
+                         like:0,
+                         dislike:0
+                    }
+                    setAllPost((pre) => {
+                         console.log("🚀 ~ addingPost ~ pre:", pre)
+                         return[...pre , post] 
+                    })
+                    // localStorage.setItem('allPost' , JSON.stringify(allPost))
+                    setPostImg('')
+                    setPostName('')
+               }else{
+                    setError('Enter Post Image Url...')
                }
           }else{
                setError('Please Enter Post Name...')
           }
      }
+     useEffect(()=>{
+          localStorage.setItem('allPost' , JSON.stringify(allPost))
+     },[allPost])
      return (
           <div className="main" style={{
                display:"flex",
@@ -27,6 +44,7 @@ export default function AddPost() {
                gap:'10px'
           }}>
                <h2>Add Post</h2>
+               {/* lable */}
                <label htmlFor="postImg" className="postImg" style={{
                     cursor:'pointer',
                }}>
@@ -36,6 +54,7 @@ export default function AddPost() {
                          textAlign:'center'
                     }}/>
                </label>
+               {/* error */}
                <div className="fileName" style={{
                     background:'lightCoral',
                     padding: '1px 20px',
@@ -44,19 +63,32 @@ export default function AddPost() {
                     fontFamily:'monospace',
                     fontWeight:600,
                }}>{error ? error : "Kindly Fill All Fields!"}</div>
-               <input type="text" id="postImg" placeholder="Enter Post Image Address ..." className="imgUrl" style={{
-                    borderRadius:'25px',
-                    padding:'5px 10px',
-               }}/>
+               {/* psost name */}
                <input value={postName} type="text" className="postHead" placeholder="Enter Post Name..." style={{
                     borderRadius:'25px',
                     padding:'5px 10px',
                }} onChange={(e)=>setPostName(e.target.value)}/>
+               {/* img url */}
+               <input type="text" value={postImg} onChange={(e)=>{
+                    if (e.target.value.includes('http')) {  
+                         setError('')  
+                         setPostImg(e.target.value)
+
+                    }else{
+                         setPostImg(e.target.value)
+                         setError('Enter Valid Url')
+                    }
+                    }
+               } id="postImg" placeholder="Enter Post Image Address ..." className="imgUrl" style={{
+                    borderRadius:'25px',
+                    padding:'5px 10px',
+               }}/>
                {/* <input type="file" id="postImg" style={{
                     display: 'none'
                }}  onChange={(e)=>{
                     setPostImg(e.target.files[0]);
-               }}/> */}
+               // }}/> */}
+               {/* post add btn */}
                <button className="addPostBtn" style={{
                     fontFamily:'serif',
                     borderRadius:'50px',
