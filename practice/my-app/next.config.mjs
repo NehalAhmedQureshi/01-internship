@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
    images:{
+      loader:'custom',
+      loaderFile:'./src/app/image copy.png',
       remotePatterns:[
          {
             protocol:'https',
-            hostname:'images.pexels.com'
+            hostname:'imageio.forbes.com'
          },
          {
             protocol:'https',
@@ -13,6 +15,10 @@ const nextConfig = {
          {
             protocol:'https',
             hostname:'media1.giphy.com'
+         },
+         {
+            protocol:'https',
+            hostname:'res.cloudinary.com'
          }
       ]
    }

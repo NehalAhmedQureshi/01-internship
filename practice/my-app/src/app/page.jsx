@@ -2,34 +2,36 @@
 import Image from "next/image";
 import image1 from './image.png'
 import { useRef } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 export default function Home() {
-  // let imageLoader = ({src , width , quality}) => {
-  //   return `https://images.pexels.com/photos/26690662/pexels-photo-26690662/free-photo-of-interior-of-an-ice-cave.jpeg?auto=compress&cs=tinysrgb&w=${width}`
-  // }
-  const loaderRef = useRef(null);
-
-  const handleImageLoad = () => {
-    if (loaderRef.current) {
-      loaderRef.current.style.display = 'none';
-    }
+  const parameter = usePathname()
+  console.log("🚀 ~ Home ~ parameter:", parameter)
+  const cloudinaryLoader = ({ src, width, quality }) => {
+    return `https://res.cloudinary.com/demo/image/upload/w_${width},q_${quality || 75}/${src}`;
   };
   return (
-    <div className="main container">
-      <div ref={loaderRef} className="loader"></div>
-      <Image 
-        src={image1}  // define image path 
-        alt='no image'
-        width={500}
-        height={300}
-        loading="lazy"  // define loading behaviour
-        onLoad={handleImageLoad}
-        unoptimized
+    <div className="main">
+      <ol type="A" className="border-2 border-white p-5 text-white ">
+        <li>
+          <Link href='/nehal' className={parameter === '/' ? 'active':''}>Nehal</Link>
+        </li>
+        <li>
+          <Link href="/dashboard" className={parameter === '/dashboard' ? 'active':''}>Dashboard</Link>
+        </li>
+      </ol>
+      <Image
+        loader={cloudinaryLoader} // Use the custom loader
+        src="car.jpg"          // Image path on Cloudinary
+        alt="Sample Image"
+        width={800}               // Desired width
+        height={400}            // Desired height
+        quality={100}              // Optional: Image quality 
         placeholder="blur"
-        // blurDataURL="https://media1.giphy.com/media/c76IJLufpNwSULPk77/200w.gif?cid=6c09b952jpc4egveezimjnrx187kkgei54i54cn1cd6rb75p&ep=v1_gifs_trending&rid=200w.gif&ct=g"
+        blurDataURL=
+        "data:image/png;base64,/9j/4AAQSkZJRgABAQEAlgCWAAD/2wBDAKBueIx4ZKCMgoy0qqC+8P//8Nzc8P//////////////////////////////////////////////////////////2wBDAaq0tPDS8P//////////////////////////////////////////////////////////////////////////////wAARCAFuAyADASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAECAwT/xAAqEAEBAAIABgICAgIDAQEAAAAAAQIRAxIhMUFRE2EicTKBQpEzUqFisf/EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAdEQEBAQEAAwEBAQAAAAAAAAAAARESAiExYVFx/9oADAMBAAIRAxEAPwDsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM3iYxzvGviA7Dhc7fKbqa1y7809pz4+3H9p02avLt8mJ8s9OXNPUS5bDI6/LPR8s9OO4bgZHb5Z6X5Z6cNxQ5jt8s9HyRxDTl3+TH2vNj7cP7P7NTl6NwebdameU8mnLuOU4t8tfLFTK2MziY3y1LL2ogAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsndzy4noHRLnI45Z2+WNg65cW+HO5770kl77pqYiyaTd+ovLGbkzbb3RfU/XTmxn2zc6yGJtN0BUAAAAAAFmVnkxkt611xnDgOfPfUXnnnF15+HPSZZcPKdNbF2ufNj9w6eKxl3ExZ5NjG7F5qYvUXRqztTmi7F9Umec8tTj3zGQ1OXWcbG92pnjfLz8sTlq6zzXr3B5N5Ty1OLl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"
+      // (default is 75)
       />
-      <div className="header">
-        how i do that
-      </div>
     </div>
   );
 }
