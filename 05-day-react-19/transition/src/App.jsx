@@ -2,7 +2,6 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const 
   const saveUsername=(e)=>{
     e.preventDefault()
     console.log(e.target);
